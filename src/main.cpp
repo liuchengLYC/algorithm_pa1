@@ -7,16 +7,19 @@
 //  Modify     [2024/9/2 Meng-Chen Wu]
 // **************************************************************************
 
-#include <cstring>
-#include <iostream>
-#include <fstream>
+// #define debug
+
 #include "../lib/tm_usage.h"
 #include "sort_tool.h"
+#include <cstring>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
 void help_message() {
-    cout << "usage: NTU_sort -[IS|MS|BMS|QS|RQS|HS] <input_file> <output_file>" << endl;
+    cout << "usage: NTU_sort -[IS|MS|BMS|QS|RQS|HS] <input_file> <output_file>"
+         << endl;
     cout << "options:" << endl;
     cout << "   IS  - Insersion Sort" << endl;
     cout << "   MS  - Merge Sort" << endl;
@@ -26,65 +29,74 @@ void help_message() {
     cout << "   HS  - Heap Sort" << endl;
 }
 
-int main(int argc, char* argv[])
-{
-    if(argc != 4) {
-       help_message();
-       return 0;
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        help_message();
+        return 0;
     }
     CommonNs::TmUsage tmusg;
     CommonNs::TmStat stat;
 
     //////////// read the input file /////////////
-    
+
     char buffer[200];
     fstream fin(argv[2]);
     fstream fout;
-    fout.open(argv[3],ios::out);
-    fin.getline(buffer,200);
-    fin.getline(buffer,200);
-    int junk,num;
+    fout.open(argv[3], ios::out);
+    fin.getline(buffer, 200);
+    fin.getline(buffer, 200);
+    int junk, num;
     vector<int> data;
     while (fin >> junk >> num)
-        data.push_back(num); // data[0] will be the first data. 
+        data.push_back(num); // data[0] will be the first data.
                              // data[1] will be the second data and so on.
-    
+
+#ifdef debug
+#include <algorithm>
+    vector<int> check = data;
+    sort(check.begin(), check.end());
+#endif
+
     //////////// the sorting part ////////////////
     tmusg.periodStart();
-    SortTool NTUSortTool; 
-    
+    SortTool NTUSortTool;
+
     string mode(argv[1]);
-    if(mode == "-IS") {
+    if (mode == "-IS") {
         NTUSortTool.InsertionSort(data);
-    }
-    else if(mode == "-MS") {
+    } else if (mode == "-MS") {
         NTUSortTool.MergeSort(data);
-    }
-    else if(mode == "-BMS") {
+    } else if (mode == "-BMS") {
         NTUSortTool.BottomUpMergeSort(data);
-    }
-    else if(mode == "-QS") {
+    } else if (mode == "-QS") {
         NTUSortTool.QuickSort(data, 0);
-    }
-    else if(mode == "-RQS") {
+    } else if (mode == "-RQS") {
         NTUSortTool.QuickSort(data, 1);
-    }
-    else if(mode == "-HS") {
+    } else if (mode == "-HS") {
         NTUSortTool.HeapSort(data);
-    }
-    else {
+    } else {
         help_message();
         return 0;
     }
+
     tmusg.getPeriodUsage(stat);
-    cout <<"The total CPU time: " << (stat.uTime + stat.sTime) / 1000.0 << "ms" << endl;
-    cout <<"memory: " << stat.vmPeak << "KB" << endl; // print peak memory
+    cout << "The total CPU time: " << (stat.uTime + stat.sTime) / 1000.0 << "ms"
+         << endl;
+    cout << "memory: " << stat.vmPeak << "KB" << endl; // print peak memory
+
+#ifdef debug
+    if (check == data) {
+        cout << "The sorting using " << mode.substr(1) << " succeed" << endl;
+    } else {
+        cout << "The sorting using " << mode.substr(1) << " failed" << endl;
+    }
+#endif
 
     //////////// write the output file ///////////
-    fout << "# " << data.size() << " data points" <<endl;
+    fout << "# " << data.size() << " data points" << endl;
     fout << "# index number" << endl;
     for (int i = 0; i < data.size(); i++)
-        fout << i << " " <<data[i] << endl;
+        fout << i << " " << data[i] << endl;
     fin.close();
     fout.close();
     return 0;

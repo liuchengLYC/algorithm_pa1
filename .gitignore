@@ -1,1 +1,8 @@
 .DS_Store
+.vscode/
+lib/libtm_usage.a
+outputs/
+results/
+main_opt.o
+sort_tool_opt.o
+tm_usage.o
