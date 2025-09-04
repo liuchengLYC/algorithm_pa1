@@ -7,8 +7,6 @@
 //  Modify     [2024/9/2 Meng-Chen Wu]
 // **************************************************************************
 
-// #define debug
-
 #include "../lib/tm_usage.h"
 #include "sort_tool.h"
 #include <cstring>
@@ -51,12 +49,6 @@ int main(int argc, char *argv[]) {
         data.push_back(num); // data[0] will be the first data.
                              // data[1] will be the second data and so on.
 
-#ifdef debug
-#include <algorithm>
-    vector<int> check = data;
-    sort(check.begin(), check.end());
-#endif
-
     //////////// the sorting part ////////////////
     tmusg.periodStart();
     SortTool NTUSortTool;
@@ -83,14 +75,6 @@ int main(int argc, char *argv[]) {
     cout << "The total CPU time: " << (stat.uTime + stat.sTime) / 1000.0 << "ms"
          << endl;
     cout << "memory: " << stat.vmPeak << "KB" << endl; // print peak memory
-
-#ifdef debug
-    if (check == data) {
-        cout << "The sorting using " << mode.substr(1) << " succeed" << endl;
-    } else {
-        cout << "The sorting using " << mode.substr(1) << " failed" << endl;
-    }
-#endif
 
     //////////// write the output file ///////////
     fout << "# " << data.size() << " data points" << endl;

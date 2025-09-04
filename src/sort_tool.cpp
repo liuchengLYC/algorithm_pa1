@@ -33,22 +33,29 @@ void SortTool::QuickSort(vector<int> &data, int f) {
 // Sort subvector (Quick sort)
 void SortTool::QuickSortSubVector(vector<int> &data, int low, int high,
                                   const int flag) {
-    // Function : Quick sort subvector
-    // TODO : Please complete QuickSortSubVector code here
-    // Hint : recursively call itself
-    //        Partition function is needed
-    // flag == 0 -> normal QS
-    // flag == 1 -> randomized QS
+    if (low >= high)
+        return;
+    int pivot = ((flag == 0) ? Partition(data, low, high)
+                             : RandomizedPartition(data, low, high));
+    QuickSortSubVector(data, low, pivot - 1, flag);
+    QuickSortSubVector(data, pivot + 1, high, flag);
 }
 int SortTool::RandomizedPartition(vector<int> &data, int low, int high) {
-    // Function : RQS's Partition the vector
-    // TODO : Please complete the function
-    return 0;
+    int i = rand() % (high - low + 1) + low;
+    swap(data[i], data[high]);
+    return Partition(data, low, high);
 }
 int SortTool::Partition(vector<int> &data, int low, int high) {
-    // Function : Partition the vector
-    // TODO : Please complete the function
-    return 0;
+    int lbound = low;
+    int pivot = data[high];
+    for (int i = low; i < high; i++) {
+        if (data[i] <= pivot) {
+            swap(data[i], data[lbound]);
+            lbound++;
+        }
+    }
+    swap(data[lbound], data[high]);
+    return lbound;
 }
 
 // Merge sort method
