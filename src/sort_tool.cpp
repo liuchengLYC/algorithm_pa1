@@ -43,10 +43,12 @@ void SortTool::QuickSortSubVector(vector<int> &data, int low, int high,
 int SortTool::RandomizedPartition(vector<int> &data, int low, int high) {
     // Function : RQS's Partition the vector
     // TODO : Please complete the function
+    return 0;
 }
 int SortTool::Partition(vector<int> &data, int low, int high) {
     // Function : Partition the vector
     // TODO : Please complete the function
+    return 0;
 }
 
 // Merge sort method
@@ -56,10 +58,6 @@ void SortTool::MergeSort(vector<int> &data) {
 
 // Sort subvector (Merge sort)
 void SortTool::MergeSortSubVector(vector<int> &data, int low, int high) {
-    // Function : Merge sort subvector
-    // TODO : Please complete MergeSortSubVector code here
-    // Hint : recursively call itself
-    //        Merge function is needed
     if (low >= high)
         return;
     int mid = (low + high) / 2;
@@ -71,9 +69,29 @@ void SortTool::MergeSortSubVector(vector<int> &data, int low, int high) {
 // Merge
 void SortTool::Merge(vector<int> &data, int low, int middle1, int middle2,
                      int high) {
-    // Function : Merge two sorted subvector
-    // TODO : Please complete the function
-    
+    if (high == low + 1) {
+        if (data[high] < data[low]) {
+            swap(data[low], data[high]);
+        }
+        return;
+    }
+    vector<int> sub1(data.begin() + low, data.begin() + middle1 + 1);
+    vector<int> sub2(data.begin() + middle2, data.begin() + high + 1);
+    sub1.push_back(INT_MAX);
+    sub2.push_back(INT_MAX);
+    int i = 0, j = 0, pos = low;
+    while (true) {
+        int v1 = sub1[i], v2 = sub2[j];
+        if (v1 == INT_MAX && v2 == INT_MAX)
+            break;
+        else if (v1 < v2) {
+            data[pos++] = v1;
+            i++;
+        } else {
+            data[pos++] = v2;
+            j++;
+        }
+    }
 }
 
 // bottom-up style implementation of merge sort
