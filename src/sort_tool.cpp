@@ -96,14 +96,17 @@ void SortTool::Merge(vector<int> &data, int low, int middle1, int middle2,
 
 // bottom-up style implementation of merge sort
 void SortTool::BottomUpMergeSort(vector<int> &data) {
-    /*TODO :
-      Implement merge sort in bottom-up style, in other words,
-      without recursive function calls.
-      Hint:
-      1. Divide data to n groups of one data each group
-      2. Iteratively merge each pair of 2 neighbor groups into one larger group
-      3. Finally we obtain exactly one sorted group
-    */
+    int len = data.size(), size = 1;
+    while (size < len) {
+        int low = 0;
+        while (low < len - size) {
+            int mid = low + size - 1;
+            int high = min(low + 2 * size - 1, len - 1);
+            SortTool::Merge(data, low, mid, mid + 1, high);
+            low += 2 * size;
+        }
+        size *= 2;
+    }
 }
 
 // Heap sort method, be aware that you are NOT required to implement heap sort
