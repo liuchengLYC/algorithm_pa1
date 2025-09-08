@@ -121,9 +121,6 @@ void SortTool::BottomUpMergeSort(vector<int> &data) {
 void SortTool::HeapSort(vector<int> &data) {
     // Build Max-Heap
     BuildMaxHeap(data);
-    // 1. Swap data[0] which is max value and data[i] so that the max value will
-    // be in correct location
-    // 2. Do max-heapify for data[0]
     for (int i = data.size() - 1; i >= 1; i--) {
         swap(data[0], data[i]);
         heapSize--;
@@ -133,12 +130,21 @@ void SortTool::HeapSort(vector<int> &data) {
 
 // Max heapify
 void SortTool::MaxHeapify(vector<int> &data, int root) {
-    // Function : Make tree with given root be a max-heap if both right and left
-    // sub-tree are max-heap
+    int left = 2 * root + 1, right = 2 * root + 2, largest = root;
+    if (left < heapSize && data[left] > data[largest])
+        largest = left;
+    if (right < heapSize && data[right] > data[largest])
+        largest = right;
+    if (largest != root) {
+        swap(data[largest], data[root]);
+        MaxHeapify(data, largest);
+    }
 }
 
 // Build max heap
 void SortTool::BuildMaxHeap(vector<int> &data) {
     heapSize = data.size(); // initialize heap size
-    // Function : Make input data become a max-heap
+    for (int i = heapSize / 2 - 1; i >= 0; i--) {
+        MaxHeapify(data, i);
+    }
 }
