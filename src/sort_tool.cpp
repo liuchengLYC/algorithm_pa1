@@ -8,7 +8,9 @@
 // **************************************************************************
 
 #include "sort_tool.h"
+#include <climits>
 #include <iostream>
+#include <utility>
 // Constructor
 SortTool::SortTool() {}
 
@@ -84,21 +86,33 @@ void SortTool::Merge(vector<int> &data, int low, int middle1, int middle2,
     }
     vector<int> sub1(data.begin() + low, data.begin() + middle1 + 1);
     vector<int> sub2(data.begin() + middle2, data.begin() + high + 1);
-    sub1.push_back(INT_MAX);
-    sub2.push_back(INT_MAX);
+    // Below method fail as long as INT_MAX exists in testcase
+    // sub1.push_back(INT_MAX);
+    // sub2.push_back(INT_MAX);
+    // int i = 0, j = 0, pos = low;
+    // while (true) {
+    //     int v1 = sub1[i], v2 = sub2[j];
+    //     if (v1 == INT_MAX && v2 == INT_MAX)
+    //         break;
+    //     else if (v1 < v2) {
+    //         data[pos++] = v1;
+    //         i++;
+    //     } else {
+    //         data[pos++] = v2;
+    //         j++;
+    //     }
+    // }
     int i = 0, j = 0, pos = low;
-    while (true) {
-        int v1 = sub1[i], v2 = sub2[j];
-        if (v1 == INT_MAX && v2 == INT_MAX)
-            break;
-        else if (v1 < v2) {
-            data[pos++] = v1;
-            i++;
-        } else {
-            data[pos++] = v2;
-            j++;
-        }
+    while (i < sub1.size() && j < sub2.size()) {
+        if (sub1[i] <= sub2[j])
+            data[pos++] = sub1[i++];
+        else
+            data[pos++] = sub2[j++];
     }
+    while (i < sub1.size())
+        data[pos++] = sub1[i++];
+    while (j < sub2.size())
+        data[pos++] = sub2[j++];
 }
 
 // bottom-up style implementation of merge sort
