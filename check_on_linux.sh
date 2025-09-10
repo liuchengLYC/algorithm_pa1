@@ -1,7 +1,11 @@
 # This script contain compile or examination commands
 # This script should be executed under "<id>_pa1"
-# How to execute: type "./checker.sh <mode>" in terminal
 # Selectable mode: IS, MS, BMS, QS, RQS, HS
+# How to use:
+# mkdir results(算我求你 這個只要輸入一次就好)
+# chmod +x check_on_linux.sh
+# ./check_on_linux <mode>
+# cat results/<mode>.result
 set -Eeuo pipefail
 
 if [[ $# -lt 1 ]]; then
