@@ -84,8 +84,15 @@ void SortTool::Merge(vector<int> &data, int low, int middle1, int middle2,
         }
         return;
     }
+    // vector<int> sub1;
+    // vector<int> sub2;
+    // for (int i = low; i < middle1 + 1; i++)
+    //     sub1.push_back(data[i]);
+    // for (int i = middle2; i < high + 1; i++)
+    //     sub2.push_back(data[i]);
     vector<int> sub1(data.begin() + low, data.begin() + middle1 + 1);
     vector<int> sub2(data.begin() + middle2, data.begin() + high + 1);
+    
     // Below method fail as long as INT_MAX exists in testcase
     // sub1.push_back(INT_MAX);
     // sub2.push_back(INT_MAX);
